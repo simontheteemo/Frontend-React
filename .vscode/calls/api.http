@@ -1,0 +1,25 @@
+@baseUrl = https://localhost:5001
+
+###
+
+GET {{baseUrl}}/api/todoitems HTTP/1.1
+
+###
+
+POST {{baseUrl}}/api/todoitems HTTP/1.1
+content-type: application/json
+
+{
+    "Description": "123"
+}
+
+###
+
+PUT {{baseUrl}}/api/todoitems/6676a8c0-61c3-40df-9621-88c8bda971e8 HTTP/1.1
+content-type: application/json
+
+{   
+    "Id": "6676a8c0-61c3-40df-9621-88c8bda971e8",
+    "Description": "Eat Dinner!",
+    "IsCompleted": true
+}
