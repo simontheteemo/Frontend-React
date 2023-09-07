@@ -1,16 +1,11 @@
 import '../App.css'
-import { Image, Alert, Button, Container, Row, Col, Form, Table, Stack } from 'react-bootstrap'
-import React, { useState, useEffect } from 'react'
-
+import {  Alert, Button, Container, Row, Col, Form, Stack } from 'react-bootstrap'
+import React, { useState } from 'react'
 import ToDoItemsClient from '../clients/toDoItemsClient'
 
-const AddTodoItemContent = () => {
+const AddTodoItem = () => {
   const [description, setDescription] = useState('')
   const [addErrorMessage, setAddErrorMessage] = useState('')
-  
-  useEffect(() => {
-    // todo
-  }, [])
 
   const renderAddTodoItemContent = () => {
     return (
@@ -55,6 +50,7 @@ const AddTodoItemContent = () => {
     ToDoItemsClient.post("/api/todoitems", body)
       .then((response) => {
         console.log('Response:', response.data);
+        handleClear()
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -72,4 +68,4 @@ const AddTodoItemContent = () => {
   )
 }
 
-export default AddTodoItemContent
+export default AddTodoItem
