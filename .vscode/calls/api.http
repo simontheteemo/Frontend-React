@@ -2,8 +2,12 @@
 
 ###
 
-GET {{baseUrl}}/api/todoitems HTTP/1.1
+GET {{baseUrl}}/api/todoitems?isCompleted=true HTTP/1.1
 
+
+###
+
+GET {{baseUrl}}/api/todoitems/18feb253-88b2-4cb2-818a-f678c9028a25	 HTTP/1.1
 ###
 
 POST {{baseUrl}}/api/todoitems HTTP/1.1

@@ -10,9 +10,12 @@ const ToDoItemsList = (props) => {
     return (
       <>
         <h1>
-          Showing { props.items && props.items.length} Item(s){' '}
+          Showing {props.items && props.items.length} Item(s){' '}
           <Button variant="primary" className="pull-right" onClick={() => props.updateList()}>
             Refresh
+          </Button>
+          <Button variant="primary" className="pull-right" style={{ marginLeft: '10px' }} onClick={() => props.updateList(true)}>
+            Full List
           </Button>
         </h1>
 
@@ -25,14 +28,19 @@ const ToDoItemsList = (props) => {
             </tr>
           </thead>
           <tbody>
-            { props.items && props.items.map((item) => (
+            {props.items && props.items.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>{item.description}</td>
                 <td>
-                  <Button variant="warning" size="sm" onClick={() => handleMarkAsComplete(item)}>
-                    Mark as completed
-                  </Button>
+                  {
+                    item.isCompleted ?
+                      <span>Completed</span>
+                      :
+                      <Button variant="warning" size="sm" onClick={() => handleMarkAsComplete(item)}>
+                        Mark as completed
+                      </Button>
+                  }
                 </td>
               </tr>
             ))}
@@ -42,19 +50,17 @@ const ToDoItemsList = (props) => {
     )
   }
 
-
-
-  async function handleMarkAsComplete({id, description}) {
+  async function handleMarkAsComplete({ id, description }) {
     ToDoItemsClient.put(`/api/todoitems/${id}`, {
-      id,description,isCompleted:true
+      id, description, isCompleted: true
     })
-    .then((response) => {
-      console.log('Response:', response.data);
-      props.updateList()
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+      .then((response) => {
+        console.log('Response:', response.data);
+        props.updateList()
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 
   return (

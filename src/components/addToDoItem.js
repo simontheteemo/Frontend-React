@@ -71,13 +71,17 @@ const AddTodoItem = () => {
     setAddErrorMessage('')
   }
 
-  async function getItems() {
-    ToDoItemsClient.get("/api/todoitems")
+  async function getItems(isCompleted) {
+    var url = isCompleted && isCompleted === true ? 
+      "/api/todoitems?isCompleted=true"
+      :
+      "/api/todoitems"
+    ToDoItemsClient.get(url)
       .then((response) => {
         console.log('Response:', response.data);
         let sortedItems = response.data.sort((a, b) => {
-          if (a.isCompleted && !b.isCompleted) return -1;
-          if (!a.isCompleted && b.isCompleted) return 1;
+          if (a.isCompleted && !b.isCompleted) return 1;
+          if (!a.isCompleted && b.isCompleted) return -1;
           return 0;
         });
         setItems(sortedItems)
