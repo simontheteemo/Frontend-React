@@ -3,10 +3,10 @@ import { Image, Container, Row, Col } from 'react-bootstrap'
 import React from 'react'
 import CheckList from './components/checkList'
 import AddTodoItem from './components/addToDoItem'
-import TodoItemsList from './components/toDoItemsList'
 import Footer from './components/footer'
 
 const App = () => {
+
   return (
     <div className="App">
       <Container>
@@ -20,13 +20,7 @@ const App = () => {
             <CheckList />
           </Col>
         </Row>
-        <Row>
-          <Col><AddTodoItem /></Col>
-        </Row>
-        <br />
-        <Row>
-          <Col><TodoItemsList /></Col>
-        </Row>
+        <AddTodoItem />
       </Container>
       <Footer />
     </div>

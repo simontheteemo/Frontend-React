@@ -1,22 +1,17 @@
 import '../App.css'
 import { Button, Table } from 'react-bootstrap'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 import ToDoItemsClient from '../clients/toDoItemsClient'
 
-const ToDoItemsList = () => {
-  const [items, setItems] = useState([])
-  
-  useEffect(() => {
-    getItems();
-  }, [])
+const ToDoItemsList = (props) => {
 
   const renderTodoItemsContent = () => {
     return (
       <>
         <h1>
-          Showing {items.length} Item(s){' '}
-          <Button variant="primary" className="pull-right" onClick={() => getItems()}>
+          Showing { props.items && props.items.length} Item(s){' '}
+          <Button variant="primary" className="pull-right" onClick={() => props.updateList()}>
             Refresh
           </Button>
         </h1>
@@ -30,7 +25,7 @@ const ToDoItemsList = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            { props.items && props.items.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>{item.description}</td>
@@ -47,21 +42,7 @@ const ToDoItemsList = () => {
     )
   }
 
-  async function getItems() {
-    ToDoItemsClient.get("/api/todoitems")
-    .then((response) => {
-      console.log('Response:', response.data);
-      let sortedItems =  response.data.sort((a, b) => {
-        if (a.isCompleted && !b.isCompleted) return -1;
-        if (!a.isCompleted && b.isCompleted) return 1;
-        return 0;
-      });
-      setItems(sortedItems)
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
+
 
   async function handleMarkAsComplete({id, description}) {
     ToDoItemsClient.put(`/api/todoitems/${id}`, {
@@ -69,7 +50,7 @@ const ToDoItemsList = () => {
     })
     .then((response) => {
       console.log('Response:', response.data);
-      getItems()
+      props.updateList()
     })
     .catch((error) => {
       console.error('Error:', error);

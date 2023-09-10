@@ -1,16 +1,23 @@
 import '../App.css'
-import {  Alert, Button, Container, Row, Col, Form, Stack } from 'react-bootstrap'
-import React, { useState } from 'react'
+import { Alert, Button, Container, Row, Col, Form, Stack } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
 import ToDoItemsClient from '../clients/toDoItemsClient'
+import TodoItemsList from './toDoItemsList'
 
 const AddTodoItem = () => {
   const [description, setDescription] = useState('')
   const [addErrorMessage, setAddErrorMessage] = useState('')
 
+  const [items, setItems] = useState([])
+
+  useEffect(() => {
+    getItems();
+  }, [])
+
   const renderAddTodoItemContent = () => {
     return (
       <Container>
-        <h1>Add Item</h1>
+        <h1>Add a TODO Item</h1>
         <Form.Group as={Row} className="mb-3" controlId="formAddTodoItem">
           <Form.Label column sm="2">
             Description
@@ -51,6 +58,7 @@ const AddTodoItem = () => {
       .then((response) => {
         console.log('Response:', response.data);
         handleClear()
+        getItems()
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -63,8 +71,32 @@ const AddTodoItem = () => {
     setAddErrorMessage('')
   }
 
+  async function getItems() {
+    ToDoItemsClient.get("/api/todoitems")
+      .then((response) => {
+        console.log('Response:', response.data);
+        let sortedItems = response.data.sort((a, b) => {
+          if (a.isCompleted && !b.isCompleted) return -1;
+          if (!a.isCompleted && b.isCompleted) return 1;
+          return 0;
+        });
+        setItems(sortedItems)
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
   return (
-    <>{renderAddTodoItemContent()}</>
+    <>
+      <Row>
+        <Col>{renderAddTodoItemContent()}</Col>
+      </Row>
+      <br />
+      <Row>
+        <Col><TodoItemsList items={items} updateList={getItems} /></Col>
+      </Row>
+    </>
   )
 }
 
