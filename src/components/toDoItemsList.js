@@ -14,9 +14,6 @@ const ToDoItemsList = (props) => {
           <Button variant="primary" className="pull-right" onClick={() => props.updateList()}>
             Refresh
           </Button>
-          <Button variant="primary" className="pull-right" style={{ marginLeft: '10px' }} onClick={() => props.updateList(true)}>
-            Full List
-          </Button>
         </h1>
 
         <Table striped bordered hover>

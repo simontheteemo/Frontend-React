@@ -52,7 +52,7 @@ const AddTodoItem = () => {
 
   async function handleAdd() {
     let body = {
-      "Description": description
+      "description": description
     }
     ToDoItemsClient.post("/api/todoitems", body)
       .then((response) => {
@@ -71,12 +71,8 @@ const AddTodoItem = () => {
     setAddErrorMessage('')
   }
 
-  async function getItems(isCompleted) {
-    var url = isCompleted && isCompleted === true ? 
-      "/api/todoitems?isCompleted=true"
-      :
-      "/api/todoitems"
-    ToDoItemsClient.get(url)
+  async function getItems() {
+    ToDoItemsClient.get("/api/todoitems")
       .then((response) => {
         console.log('Response:', response.data);
         let sortedItems = response.data.sort((a, b) => {
