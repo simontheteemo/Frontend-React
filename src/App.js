@@ -17,6 +17,7 @@ const App = () => {
         </Row>
         <Row>
           <Col>
+            something new
             <CheckList />
           </Col>
         </Row>
