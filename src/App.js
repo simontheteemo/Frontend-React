@@ -18,6 +18,7 @@ const App = () => {
         <Row>
           here
           <Col>
+            something new
             <CheckList />
           </Col>
         </Row>
